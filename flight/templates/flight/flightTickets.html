@@ -18,13 +18,30 @@
 </style>
 {% endblock head %}
 {% block body %}
-<div class="ct" style="margin-top: 60px">
-    <h1>Tickets for Flight {{ flight }}</h1>
+<div class="ct" style="margin: 80px 10px 10px 10px">
+    <h4><b>Flight Name: </b>{{ flight.origin }} to {{ flight.destination }}</h4>
+    <h4><b>Airline: </b>{{ flight.airline }}</h4>
+    <hr class="border border-danger border-2 opacity-75">
+    {% comment %} <table class="table">
+      <thead>
+        <tr class="table-active">
+          <th>Ticket ID</th>
+          <th>Reference Number</th>
+          <th>Seat Class</th>
+          <th>Passengers</th>
+          <th>Flight Departure Date</th>
+          <th>Flight Fare</th>
+          <th>Total Fare</th>
+          <th>Status</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table> {% endcomment %}
     <ul>
         {% for passenger in passengers %}
             <li>{{ passenger }}</li>
-        {% empty %}
-            No passengers found for this flight.
         {% endfor %}
     </ul>
     {% if tickets %}
@@ -33,14 +50,13 @@
           <tr class="table-active">
             <th>Ticket ID</th>
             <th>Reference Number</th>
-            <th>Seat Class</th>
             <th>Passengers</th>
+            <th>Seat Class</th>
             <th>Flight Departure Date</th>
             <th>Flight Fare</th>
             <th>Total Fare</th>
             <th>Status</th>
             
-            <!-- Add more columns for other ticket parameters -->
           </tr>
         </thead>
         <tbody>

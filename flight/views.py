@@ -52,32 +52,31 @@ def MarshallFlight(request):
 def MarshallAddFlight(request):
     if request.method == 'POST':
         if request.user.is_superuser:
-            FL = Flight()
-            FL.origin = Place.objects.get(city=request.POST.get('origin'))
-            FL.destination = Place.objects.get(city=request.POST.get('destination'))
-            FL.depart_time = request.POST.get('depart_time')
-            
             duration_str = request.POST.get('duration')
-            hours, minutes = duration_str.split(':')
             
-            hours = int(hours)
-            minutes = int(minutes)
+            try:
+                hours, minutes = duration_str.split(':')
+                FL = Flight()
+                FL.origin = Place.objects.get(city=request.POST.get('origin'))
+                FL.destination = Place.objects.get(city=request.POST.get('destination'))
+                FL.depart_time = request.POST.get('depart_time')
+                hours = int(hours)
+                minutes = int(minutes)
+                FL.duration = timedelta(hours=hours, minutes=minutes)
+                FL.arrival_time = request.POST.get('arrival_time')
+                FL.plane = request.POST.get('plane')
+                FL.airline = request.POST.get('airline')
+                FL.economy_fare = request.POST.get('economy_fare')
+                FL.business_fare = request.POST.get('business_fare')
+                FL.first_fare = request.POST.get('first_fare')
+                
+                FL.save()
+                depart_days = request.POST.getlist('depart_day')
+                FL.depart_day.set(Week.objects.filter(name__in=depart_days))
             
-            FL.duration = timedelta(hours=hours, minutes=minutes)
-            
-            FL.arrival_time = request.POST.get('arrival_time')
-            FL.plane = request.POST.get('plane')
-            FL.airline = request.POST.get('airline')
-            FL.economy_fare = request.POST.get('economy_fare')
-            FL.business_fare = request.POST.get('business_fare')
-            FL.first_fare = request.POST.get('first_fare')
-            
-            FL.save()
-            
-            depart_days = request.POST.getlist('depart_day')
-            FL.depart_day.set(Week.objects.filter(name__in=depart_days))
-            
-            return redirect("flights")
+                return redirect("flights")
+            except:
+                return redirect("flights")
         return redirect("/")
     
     return render(request, "flight/Flights.html")
@@ -87,7 +86,7 @@ def MarshallRemoveFlights(request):
         if request.user.is_superuser:
             selected_flights = request.POST.getlist('selected_flights')
             Flight.objects.filter(id__in=selected_flights).delete()
-            return redirect('MarshallIndex')
+            return redirect('flights')
     return redirect("/")
 
 def flight_tickets_view(request, flight_id):
@@ -114,12 +113,12 @@ def AddPassengers(request):
     if request.method == 'POST':
         if request.user.is_superuser:
             P = Passenger()
-            P.first_name = request.POST.get("fName")
-            P.last_name = request.POST.get("lName")
-            P.gender = request.POST.get("gender")
+            P.first_name = request.POST.get("fName").capitalize()
+            P.last_name = request.POST.get("lName").capitalize()
+            P.gender = request.POST.get("gender").capitalize()
             P.save()
             
-            return redirect("MarshallIndex")
+            return redirect("Passengers")
 
 def RemovePassengers(request):
     if request.method == 'POST':
@@ -132,7 +131,7 @@ def RemovePassengers(request):
                     passenger.delete()
                 except Passenger.DoesNotExist:
                     pass
-            return redirect('MarshallIndex')
+            return redirect('Passengers')
     return redirect("/")
 
 

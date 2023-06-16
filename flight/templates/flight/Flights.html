@@ -28,89 +28,113 @@
 
 {% block body %}
 <div class="ct" style="margin-top: 60px;">
-<button onclick="togglePopup()" class="btn btn-success" style="position: fixed; float: left;  margin-top: -40px;">Add Flight</button>
-<div id="popup" class="popup">
-    <h2>Add Flight</h2>
-    <form method="POST" action="{% url 'addflight' %}">
-        {% csrf_token %}
-        <label for="origin">Origin:</label>
-        <input type="text" id="origin" name="origin"><br>
-        
-        <label for="destination">Destination:</label>
-        <input type="text" id="destination" name="destination"><br>
-        
-        <label for="depart_time">Departure Time:</label>
-        <input type="time" id="depart_time" name="depart_time"><br>
-        
-        <label for="depart_day">Departure Day:</label>
-        <input type="text" id="depart_day" name="depart_day"><br>
-        
-        <label for="duration">Duration:</label>
-        <input type="text" id="duration" name="duration"><br>
-        
-        <label for="arrival_time">Arrival Time:</label>
-        <input type="time" id="arrival_time" name="arrival_time"><br>
-        
-        <label for="plane">Plane:</label>
-        <input type="text" id="plane" name="plane"><br>
-        
-        <label for="airline">Airline:</label>
-        <input type="text" id="airline" name="airline"><br>
-        
-        <label for="economy_fare">Economy Fare:</label>
-        <input type="number" step="0.01" id="economy_fare" name="economy_fare"><br>
-        
-        <label for="business_fare">Business Fare:</label>
-        <input type="number" step="0.01" id="business_fare" name="business_fare"><br>
-        
-        <label for="first_fare">First Class Fare:</label>
-        <input type="number" step="0.01" id="first_fare" name="first_fare"><br>
-        
-        <button type="submit">Submit</button>
-    </form>
-</div>
-<form method="POST" action="{% url 'MarshallRemoveFlights' %}">
-    {% csrf_token %}
-    <div class="button-group">
-        <button type="submit" id="remove-btn" class = "btn btn-danger" style="position: fixed; margin-left: 120px; margin-top: -40px;" disbaled>Remove Flight</button>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="position: fixed; float: left;  margin-top: -40px;">Add Flight</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{% url 'addflight' %}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Flight</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Origin</span>
+                            <input type="text" class="form-control" placeholder="Origin" aria-label="origin" aria-describedby="addon-wrapping" id="origin" name="origin" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Destination</span>
+                            <input type="text" class="form-control" placeholder="Destination" aria-label="destination" aria-describedby="addon-wrapping" id="destination" name="destination" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Departure Time</span>
+                            <input type="time" class="form-control" placeholder="Departure Time" aria-label="depart_time" aria-describedby="addon-wrapping" id="depart_time" name="depart_time" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Departure Day</span>
+                            <input type="text" class="form-control" placeholder="Departure Day" aria-label="depart_day" aria-describedby="addon-wrapping" id="depart_day" name="depart_day" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Duration</span>
+                            <input type="text" class="form-control" placeholder="HH:MM" aria-label="duration" aria-describedby="addon-wrapping" id="duration" name="duration" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Arrival Time</span>
+                            <input type="time" class="form-control" placeholder="Arrival Time" aria-label="arrival_time" aria-describedby="addon-wrapping" id="arrival_time" name="arrival_time" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Plane</span>
+                            <input type="text" class="form-control" placeholder="Plane" aria-label="plane" aria-describedby="addon-wrapping" id="plane" name="plane" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Airline</span>
+                            <input type="text" class="form-control" placeholder="Airline" aria-label="airline" aria-describedby="addon-wrapping" id="airline" name="airline" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Economy Fare</span>
+                            <input type="number" class="form-control" placeholder="Economy Fare" aria-label="economy_fare" aria-describedby="addon-wrapping" id="economy_fare" name="economy_fare" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">Business Fare</span>
+                            <input type="number" class="form-control" placeholder="Business Fare" aria-label="business_fare" aria-describedby="addon-wrapping" id="business_fare" name="business_fare" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 30%;">First Class Fare</span>
+                            <input type="number" class="form-control" placeholder="First Fare" aria-label="first_fare" aria-describedby="addon-wrapping" id="first_fare" name="first_fare" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="tb" style="margin-top: 120px;">
-    <table class="table">
-        <thead>
-            <tr class="table-active">
-                <th>Select</th>
-                <th>Flight ID</th>
-                <th>Origin</th>
-                <th>Destination</th>
-                <th>Departure Time</th>
-                <th>Arrival Time</th>
-                <th>Airline</th>
-                <th>Economy Fare</th>
-                <th>Business Fare</th>
-                <th>First Fare</th>
-                <th>Tickets</th>
-            </tr>
-        </thead>
-        <tbody style="text-align: center;">
-            {% for flight in flights %}
-            <tr>
-                <td><input type="checkbox" name="selected_flights" value="{{ flight.id }}"></td>
-                <td>{{ flight.id }}</td>
-                <td>{{ flight.origin }}</td>
-                <td>{{ flight.destination }}</td>
-                <td>{{ flight.depart_time }}</td>
-                <td>{{ flight.arrival_time }}</td>
-                <td>{{ flight.airline }}</td>
-                <td>{{ flight.economy_fare }}</td>
-                <td>{{ flight.business_fare }}</td>
-                <td>{{ flight.first_fare }}</td>
-                <td><a href="{% url 'flight_tickets' flight.id %}">View Tickets</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-</form>
+    
+    <form method="POST" action="{% url 'MarshallRemoveFlights' %}">
+        {% csrf_token %}
+        <div class="button-group">
+            <button type="submit" id="remove-btn" class = "btn btn-danger" style="position: fixed; margin-left: 120px; margin-top: -40px;" disbaled>Remove Flight</button>
+        </div>
+        <div class="tb" style="margin-top: 120px;">
+        <table class="table">
+            <thead>
+                <tr class="table-active">
+                    <th>Select</th>
+                    <th>Flight ID</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Airline</th>
+                    <th>Economy Fare</th>
+                    <th>Business Fare</th>
+                    <th>First Fare</th>
+                    <th>Tickets</th>
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+                {% for flight in flights %}
+                <tr>
+                    <td><input type="checkbox" name="selected_flights" value="{{ flight.id }}"></td>
+                    <td>{{ flight.id }}</td>
+                    <td>{{ flight.origin }}</td>
+                    <td>{{ flight.destination }}</td>
+                    <td>{{ flight.depart_time }}</td>
+                    <td>{{ flight.arrival_time }}</td>
+                    <td>{{ flight.airline }}</td>
+                    <td>{{ flight.economy_fare }}</td>
+                    <td>{{ flight.business_fare }}</td>
+                    <td>{{ flight.first_fare }}</td>
+                    <td><a href="{% url 'flight_tickets' flight.id %}">View Tickets</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </form>
 </div>
     <script>
         function togglePopup() {
@@ -135,6 +159,8 @@
             $('input[name="selected_flights"]').on('change', handleCheckboxChange);
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 {% endblock%}

@@ -29,7 +29,7 @@
                                         <img class="elements-ci__image_section-1-module-3" src="https://www.peoplemetrics.com/hubfs/Website/email_1-blue-bottom.svg" alt="email" loading="" width="52" height="40">
                                       </a>
                                     <a href="mailto:shop.ayush930@gmail.com" class="elements-btns-text--styles_section-1-module-3" style="color: #74828c; letter-spacing:.5px;">
-                                      shop.ayush930@gmail.com
+                                      ynr24piyush@gmail.com
                                     </a>
                                   </span>
                                 </div>
@@ -41,7 +41,7 @@
                                             <img class="elements-ci__image_section-1-module-3" src="https://www.peoplemetrics.com/hubfs/Website/phone_1-blue-bottom.svg" alt="phone" loading="" width="52" height="40">
                                           </a>
                                     <a href="tel:#" class="elements-btns-text--styles_section-1-module-3" style="color: #74828c;">
-                                      (215) 979-XXXX
+                                      +91 9464974691
                                     </a>
                                   </span>
                                 </div>
@@ -53,7 +53,7 @@
                                             <img class="elements-ci__image_section-1-module-3" src="https://www.peoplemetrics.com/hubfs/Website/pin-blue-bottom.svg" alt="address" loading="" width="50" height="50">
                                           </a>
                                     <a href="https://g.page/DSCENGG?share" class="elements-btns-text--styles_section-1-module-3" style="color: #74828c;">
-                                      DSCE, Bangalore, India - 560078
+                                      Sector-35B, Chandigarh, India - 160035
                                     </a>
                                   </span>
                                 </div>
@@ -67,40 +67,59 @@
       </div>
         <div class="col-md-6 contact-form-box">
             <div class="section-heading">
-                <form id="ContactUs100" method="post" onsubmit="return ValidateForm(this);">
+                <form id="ContactUs100" method="post" onsubmit="return ValidateForm(this);" action="javascript:sendmail()">
                   {% csrf_token %}
                     <script type="text/javascript">
-                    function ValidateForm(frm) {
-                    if (frm.Name.value == "") { alert('Name is required.'); frm.Name.focus(); return false; }
-                    if (frm.FromEmailAddress.value == "") { alert('Email address is required.'); frm.FromEmailAddress.focus(); return false; }
-                    if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.FromEmailAddress.focus(); return false; }
-                    if (frm.Comments.value == "") { alert('Please enter comments or questions.'); frm.Comments.focus(); return false; }
-                    alert('Thank you for contacting us. We will get back to you as soon as possible.');
-                    return true; }
+                      function ValidateForm(frm) {
+                      if (frm.Name.value == "") { alert('Name is required.'); frm.Name.focus(); return false; }
+                      if (frm.FromEmailAddress.value == "") { alert('Email address is required.'); frm.FromEmailAddress.focus(); return false; }
+                      if (frm.FromEmailAddress.value.indexOf("@") < 1 || frm.FromEmailAddress.value.indexOf(".") < 1) { alert('Please enter a valid email address.'); frm.FromEmailAddress.focus(); return false; }
+                      if (frm.Comments.value == "") { alert('Please enter comments or questions.'); frm.Comments.focus(); return false; }
+                      alert('Thank you for contacting us. We will get back to you as soon as possible.');
+                      return true; }
                     </script>
                     <table style="width:100%;max-width:550px;border:0;" cellpadding="8" cellspacing="0">
-                    <tr> <td>
-                    <label for="Name">Name:</label>
-                    </td> <td>
-                    <input name="Name" type="text" maxlength="60"  autocomplete="off" placeholder="John Doe" required>
-                    </td> </tr> <tr> <td>
-                    <label for="PhoneNumber">Phone:</label>
-                    </td> <td>
-                    <input name="PhoneNumber" type="tel" maxlength="15"  autocomplete="off" placeholder="+91 9999988888" required>
-                    </td> </tr> <tr> <td>
-                    <label for="FromEmailAddress">Email:</label>
-                    </td> <td>
-                    <input name="FromEmailAddress" type="email" maxlength="90"  autocomplete="off" placeholder="john@gmail.com" required>
-                    </td> </tr> <tr> <td>
-                    <label for="Comments">Message:</label>
-                    </td> <td>
-                    <textarea name="Comments" rows="7" cols="40" autocomplete="off" placeholder="Enter your message here..." required></textarea>
-                    </td> </tr> <tr> <td>
-                    </td> <td>
-                    <button class="btn btn-danger">Send Message</button>
-                    <button type='submit' class="btn btn-danger" hidden>Send Message</button>
-                    {% comment %} <input name="skip_Submit" type="submit" value="Send Message" /> {% endcomment %}
-                    </td> </tr>
+                      <tr>
+                        <td>
+                          <label for="Name">Name:</label>
+                        </td>
+                        <td>
+                          <input name="Name" type="text" maxlength="60"  autocomplete="off" placeholder="Paarth" id="name" required>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label for="PhoneNumber">Phone:</label>
+                        </td>
+                        <td>
+                          <input name="PhoneNumber" type="tel" maxlength="15"  autocomplete="off" placeholder="+91 9456010094" id="phone-number" required>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label for="FromEmailAddress">Email:</label>
+                        </td>
+                        <td>
+                          <input name="FromEmailAddress" type="email" maxlength="90"  autocomplete="off" placeholder="paarth@gmail.com" id="email" required>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <label for="Comments">Message:</label>
+                        </td>
+                        <td>
+                          <textarea name="Comments" rows="7" cols="40" autocomplete="off" placeholder="Enter your message here..." id="me" required></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                        </td>
+                        <td>
+                          <button class="btn btn-danger">Send Message</button>
+                          <button type="submit" class="btn btn-danger" hidden>Send Message</button>
+                          {% comment %} <input name="skip_Submit" type="submit" value="Send Message" /> {% endcomment %}
+                        </td>
+                      </tr>
                     </table>
                 </form>
             </div>

@@ -27,50 +27,67 @@
 {% endblock head %}
 
 {% block body %}
+<div class="ct" style="margin-top: 120px;">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" style="position: fixed; float: left;  margin-top: -40px;">Add Passenger</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{% url 'AddPassengers' %}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Add Passenger</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text text-center" id="addon-wrapping" style="width: 24%;">First Name</span>
+                            <input type="text" class="form-control" placeholder="First Name" aria-label="First Name" aria-describedby="addon-wrapping" id="fName" name="fName" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 24%;">Last Name</span>
+                            <input type="text" class="form-control" placeholder="Last Name" aria-label="Last Name" aria-describedby="addon-wrapping" id="lName" name="lName" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text" id="addon-wrapping" style="width: 24%;">Gender</span>
+                            <input type="text" class="form-control" placeholder="Gender" aria-label="Gender" aria-describedby="addon-wrapping" id="gender" name="gender" required>
+                        </div>                        
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-<button onclick="togglePopup()" class="btn btn-success">Add Passenger</button>
-<div id="popup" class="popup">
-    <h2>Add Passenger</h2>
-    <form method="POST" action="{% url 'AddPassengers' %}">
+    <form method="POST" action="{% url 'RemovePassengers' %}">
         {% csrf_token %}
-        <label for="fName">First Name:</label>
-        <input type="text" id="fName" name="fName"><br>
-        
-        <label for="lName">Last Name:</label>
-        <input type="text" id="lName" name="lName"><br>
-        
-        <label for="gender">Gender:</label>
-        <input type="text" id="gender" name="gender"><br>
-        
-        <button type="submit">Submit</button>
+        <div class="button-group">
+            <button type="submit" id="remove-btn" class = "btn btn-danger" style="position: fixed; margin-left: 160px; margin-top: -40px;" disbaled>Remove Passenger</button>
+        </div>
+        <table class="table" style="margin-top: 20px;">
+            <thead>
+                <tr class="table-active">
+                    <th>Select</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody style="text-align: center;">
+                {% for passenger in passengers %}
+                <tr>
+                    <td style="text-transform: uppercase;"><input type="checkbox" name="selected_passengers" value="{{ passenger.first_name }}"></td>
+                    <td style="text-transform: uppercase;">{{ passenger.first_name }}</td>
+                    <td style="text-transform: uppercase;">{{ passenger.last_name }}</td>
+                    <td style="text-transform: uppercase;">{{ passenger.gender }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </form>
 </div>
-<form method="POST" action="{% url 'RemovePassengers' %}">
-    {% csrf_token %}
-    <div class="button-group">
-        <button type="submit" id="remove-btn" class = "btn btn-danger" disbaled>Remove Passenger</button>
-    </div>
-    <table class="table">
-        <thead>
-            <tr class="table-active">
-                <th>Select</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-            </tr>
-        </thead>
-        <tbody style="text-align: center;">
-            {% for passenger in passengers %}
-            <tr>
-                <td><input type="checkbox" name="selected_passengers" value="{{ passenger.first_name }}"></td>
-                <td>{{ passenger.first_name }}</td>
-                <td>{{ passenger.last_name }}</td>
-                <td>{{ passenger.gender }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</form>
     <script>
         function togglePopup() {
             var popup = document.getElementById("popup");
@@ -94,6 +111,8 @@
             $('input[name="selected_flights"]').on('change', handleCheckboxChange);
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 {% endblock%}
