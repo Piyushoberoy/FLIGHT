@@ -1,0 +1,81 @@
+{% extends 'flight/MarshallLayout.html' %}
+{% block head %}
+<title>{{ flight }} Passengers | SkyVoyage</title>
+<style>
+    .btn{
+        margin:10px;
+        border-radius: 20px 20px 0px 0px;
+    }
+    th, td {
+        text-align: center;
+    }
+    .button-group{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        {% comment %} height: 100vh; {% endcomment %}
+    }
+</style>
+{% endblock head %}
+{% block body %}
+<div class="ct" style="margin-top: 60px">
+    <h1>Tickets for Flight {{ flight }}</h1>
+    <ul>
+        {% for passenger in passengers %}
+            <li>{{ passenger }}</li>
+        {% empty %}
+            No passengers found for this flight.
+        {% endfor %}
+    </ul>
+    {% if tickets %}
+    <table class="table">
+        <thead>
+          <tr class="table-active">
+            <th>Ticket ID</th>
+            <th>Reference Number</th>
+            <th>Seat Class</th>
+            <th>Passengers</th>
+            <th>Flight Departure Date</th>
+            <th>Flight Fare</th>
+            <th>Total Fare</th>
+            <th>Status</th>
+            
+            <!-- Add more columns for other ticket parameters -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for ticket in tickets %}
+            <tr>
+              <td>{{ ticket.id }}</td>
+              <td>{{ ticket.ref_no }}</td>
+              <td>
+                {% for passenger in ticket.passengers.all %}
+                {{ passenger.first_name }}
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </td>
+              <td style="text-transform: capitalize;">{{ ticket.seat_class }}</td>
+              <td>{{ ticket.flight_ddate }}</td>
+              <td>{{ ticket.flight_fare }}</td>
+              <td>{{ ticket.total_fare }}</td>
+              <td>{{ ticket.status }}</td>
+              
+              <!-- Retrieve and display other ticket parameters as needed -->
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No tickets available for this flight.</p>
+    {% endif %}
+    <form method="POST" action="{% url 'flights' %}">
+        {% csrf_token %}
+    <div class="button-group">
+        <button type="submit" id="remove-btn" class = "btn btn-secondary" disbaled>Back</button>
+    </div>
+    </form>
+
+</div>
+
+
+{% endblock %}

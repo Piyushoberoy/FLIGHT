@@ -1,0 +1,67 @@
+{% extends 'flight/MarshallLayout.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Marshall Home | SkyVoyage</title>
+    <style>
+        th {
+            text-align: center;
+        }
+        .btn{
+            margin:10px;
+            border-radius: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+        }
+        .MarshallImage {
+            background-image: url("{% static 'img/plane.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100vh;
+        }
+        .navbar {
+            position: static;  /* Set the position to static to make it not fixed */
+        }
+    </style>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock head %}
+
+{% block body %}
+<div class="MarshallImage" style="margin-top: -70px;"></div>
+    <script>
+        function togglePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = (popup.style.display === "none") ? "block" : "none";
+        }
+        const checkboxes = document.querySelectorAll('input[name="selected_flights"]');
+        $(document).ready(function() {
+            // Function to handle checkbox changes
+            function handleCheckboxChange() {
+                const checkedCheckboxes = $('input[name="selected_flights"]:checked');
+                const removeBtn = $('#remove-btn');
+    
+                if (checkedCheckboxes.length > 0) {
+                    removeBtn.prop('disabled', false);  // Enable button when at least one checkbox is checked
+                } else {
+                    removeBtn.prop('disabled', true);   // Disable button when no checkboxes are checked
+                }
+            }
+    
+            // Add event listener to checkboxes
+            $('input[name="selected_flights"]').on('change', handleCheckboxChange);
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock%}

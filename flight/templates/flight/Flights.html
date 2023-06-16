@@ -1,0 +1,140 @@
+{% extends 'flight/MarshallLayout.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Marshall Home | SkyVoyage</title>
+    <style>
+        th {
+            text-align: center;
+        }
+        .btn{
+            margin:10px;
+            border-radius: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+        }
+    </style>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock head %}
+
+{% block body %}
+<div class="ct" style="margin-top: 60px;">
+<button onclick="togglePopup()" class="btn btn-success" style="position: fixed; float: left;  margin-top: -40px;">Add Flight</button>
+<div id="popup" class="popup">
+    <h2>Add Flight</h2>
+    <form method="POST" action="{% url 'addflight' %}">
+        {% csrf_token %}
+        <label for="origin">Origin:</label>
+        <input type="text" id="origin" name="origin"><br>
+        
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination"><br>
+        
+        <label for="depart_time">Departure Time:</label>
+        <input type="time" id="depart_time" name="depart_time"><br>
+        
+        <label for="depart_day">Departure Day:</label>
+        <input type="text" id="depart_day" name="depart_day"><br>
+        
+        <label for="duration">Duration:</label>
+        <input type="text" id="duration" name="duration"><br>
+        
+        <label for="arrival_time">Arrival Time:</label>
+        <input type="time" id="arrival_time" name="arrival_time"><br>
+        
+        <label for="plane">Plane:</label>
+        <input type="text" id="plane" name="plane"><br>
+        
+        <label for="airline">Airline:</label>
+        <input type="text" id="airline" name="airline"><br>
+        
+        <label for="economy_fare">Economy Fare:</label>
+        <input type="number" step="0.01" id="economy_fare" name="economy_fare"><br>
+        
+        <label for="business_fare">Business Fare:</label>
+        <input type="number" step="0.01" id="business_fare" name="business_fare"><br>
+        
+        <label for="first_fare">First Class Fare:</label>
+        <input type="number" step="0.01" id="first_fare" name="first_fare"><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<form method="POST" action="{% url 'MarshallRemoveFlights' %}">
+    {% csrf_token %}
+    <div class="button-group">
+        <button type="submit" id="remove-btn" class = "btn btn-danger" style="position: fixed; margin-left: 120px; margin-top: -40px;" disbaled>Remove Flight</button>
+    </div>
+    <div class="tb" style="margin-top: 120px;">
+    <table class="table">
+        <thead>
+            <tr class="table-active">
+                <th>Select</th>
+                <th>Flight ID</th>
+                <th>Origin</th>
+                <th>Destination</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>Airline</th>
+                <th>Economy Fare</th>
+                <th>Business Fare</th>
+                <th>First Fare</th>
+                <th>Tickets</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            {% for flight in flights %}
+            <tr>
+                <td><input type="checkbox" name="selected_flights" value="{{ flight.id }}"></td>
+                <td>{{ flight.id }}</td>
+                <td>{{ flight.origin }}</td>
+                <td>{{ flight.destination }}</td>
+                <td>{{ flight.depart_time }}</td>
+                <td>{{ flight.arrival_time }}</td>
+                <td>{{ flight.airline }}</td>
+                <td>{{ flight.economy_fare }}</td>
+                <td>{{ flight.business_fare }}</td>
+                <td>{{ flight.first_fare }}</td>
+                <td><a href="{% url 'flight_tickets' flight.id %}">View Tickets</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</form>
+</div>
+    <script>
+        function togglePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = (popup.style.display === "none") ? "block" : "none";
+        }
+        const checkboxes = document.querySelectorAll('input[name="selected_flights"]');
+        $(document).ready(function() {
+            // Function to handle checkbox changes
+            function handleCheckboxChange() {
+                const checkedCheckboxes = $('input[name="selected_flights"]:checked');
+                const removeBtn = $('#remove-btn');
+    
+                if (checkedCheckboxes.length > 0) {
+                    removeBtn.prop('disabled', false);  // Enable button when at least one checkbox is checked
+                } else {
+                    removeBtn.prop('disabled', true);   // Disable button when no checkboxes are checked
+                }
+            }
+    
+            // Add event listener to checkboxes
+            $('input[name="selected_flights"]').on('change', handleCheckboxChange);
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock%}

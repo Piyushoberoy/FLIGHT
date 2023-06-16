@@ -1,0 +1,99 @@
+{% extends 'flight/MarshallLayout.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Marshall Passengers | SkyVoyage</title>
+    <style>
+        th {
+            text-align: center;
+        }
+        .btn{
+            margin:10px;
+            border-radius: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+        }
+    </style>
+    <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+{% endblock head %}
+
+{% block body %}
+
+<button onclick="togglePopup()" class="btn btn-success">Add Passenger</button>
+<div id="popup" class="popup">
+    <h2>Add Passenger</h2>
+    <form method="POST" action="{% url 'AddPassengers' %}">
+        {% csrf_token %}
+        <label for="fName">First Name:</label>
+        <input type="text" id="fName" name="fName"><br>
+        
+        <label for="lName">Last Name:</label>
+        <input type="text" id="lName" name="lName"><br>
+        
+        <label for="gender">Gender:</label>
+        <input type="text" id="gender" name="gender"><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<form method="POST" action="{% url 'RemovePassengers' %}">
+    {% csrf_token %}
+    <div class="button-group">
+        <button type="submit" id="remove-btn" class = "btn btn-danger" disbaled>Remove Passenger</button>
+    </div>
+    <table class="table">
+        <thead>
+            <tr class="table-active">
+                <th>Select</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+            </tr>
+        </thead>
+        <tbody style="text-align: center;">
+            {% for passenger in passengers %}
+            <tr>
+                <td><input type="checkbox" name="selected_passengers" value="{{ passenger.first_name }}"></td>
+                <td>{{ passenger.first_name }}</td>
+                <td>{{ passenger.last_name }}</td>
+                <td>{{ passenger.gender }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+    <script>
+        function togglePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = (popup.style.display === "none") ? "block" : "none";
+        }
+        const checkboxes = document.querySelectorAll('input[name="selected_flights"]');
+        $(document).ready(function() {
+            // Function to handle checkbox changes
+            function handleCheckboxChange() {
+                const checkedCheckboxes = $('input[name="selected_flights"]:checked');
+                const removeBtn = $('#remove-btn');
+    
+                if (checkedCheckboxes.length > 0) {
+                    removeBtn.prop('disabled', false);  // Enable button when at least one checkbox is checked
+                } else {
+                    removeBtn.prop('disabled', true);   // Disable button when no checkboxes are checked
+                }
+            }
+    
+            // Add event listener to checkboxes
+            $('input[name="selected_flights"]').on('change', handleCheckboxChange);
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock%}

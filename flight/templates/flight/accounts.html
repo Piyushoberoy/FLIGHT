@@ -1,0 +1,64 @@
+{% extends "flight/layout2.html" %}
+
+{% load static %}
+
+{% block title %}
+    Accounts
+{% endblock %}
+
+{% block body %}
+    <div class="user-box" style="background-color: transparent">
+        <div>
+            <center>
+                <a href="{% url 'index' %}">
+                    <img src="{% static 'img/icon_logo.png' %}" height="65em" style="margin-bottom: 2vh;">
+                </a>
+                <div class="Container">
+                    <div class="CUser">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{% static 'img/SkyVoyager.jpeg' %}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">SkyVoyager</h5>
+                            <p class="card-text">SkyVoyager: Where Dreams Meet Reality, and Adventures Begin!</p>
+                            <a href="{% url 'login' %}" class="btn btn-success">Let's Fly</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="CAdmin">
+                        <div class="card" style="width: 18rem;">
+                            <img src="{% static 'img/SkyVoyager.jpeg' %}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                            <h5 class="card-title">Marshall</h5>
+                            <p class="card-text">Elevate Your Digital Presence with Marshall: Amplify Your Impact!</p>
+                            <a href="{% url 'MarshallLogin' %}" class="btn btn-success">Let's Fly</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+    
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".inp").forEach(input => {
+                input.addEventListener('input', () => {
+                    if ((document.querySelector('.usrnm').value.length === 0) || (document.querySelector('.pswd').value.length === 0)) {
+                        document.querySelector('input[type="submit"]').disabled = true;
+                    }
+                    else {
+                        document.querySelector('input[type="submit"]').disabled = false;
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+        a:hover{
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
