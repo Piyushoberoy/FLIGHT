@@ -22,6 +22,34 @@
             background-color: #f9f9f9;
             border: 1px solid #ccc;
         }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    
+        .pagination a {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+            margin-right: 5px;
+        }
+    
+        .pagination a:hover {
+            background-color: #d9d3d3;
+        }
+    
+        .pagination .current-page {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+        }
     </style>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock head %}
@@ -133,6 +161,22 @@
                 {% endfor %}
             </tbody>
         </table>
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if flights.has_previous %}
+                <a href="?page={{ flights.previous_page_number }}">Previous</a>
+            {% else %}
+                <a href="#" style="pointer-events: none;">Previous</a>
+            {% endif %}
+
+            <span class="current-page">{{ flights.number }}</span>&nbsp;
+
+            {% if flights.has_next %}
+                <a href="?page={{ flights.next_page_number }}">Next</a>
+            {% else %}
+                <a href="#">Next</a>
+            {% endif %}
+        </div>
     </div>
     </form>
 </div>

@@ -33,12 +33,31 @@
         .navbar {
             position: static;  /* Set the position to static to make it not fixed */
         }
+        .banner-div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1; /* Ensure the context appears above the image */
+            width: 100%;
+        }
+        .banner-div .banner-text{
+            color: black;
+            width: 100%;
+            text-align: center;
+        }
     </style>
     <script type="text/javascript" src="{% static 'js/index.js' %}"></script>
 {% endblock head %}
 
 {% block body %}
 <div class="MarshallImage" style="margin-top: -70px;"></div>
+<div class="banner-div">
+    <div class="banner">
+    <h1 class="banner-text">Empower your flight management with our intuitive, powerful platform, Marshall.</h1>
+    </div>
+</div>
     <script>
         function togglePopup() {
             var popup = document.getElementById("popup");

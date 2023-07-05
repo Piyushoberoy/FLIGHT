@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from .forms import FlightForm
 from datetime import datetime
+from django.core.paginator import Paginator
 import re
 import math 
 from .models import *
@@ -45,7 +46,9 @@ def MarshallIndex(request):
 def MarshallFlight(request):
     if request.user.is_superuser:
         flights = Flight.objects.all()
-        # print(days)
+        paginator = Paginator(flights, 20)
+        page_number = request.GET.get('page')
+        flights = paginator.get_page(page_number)
         return render(request, "flight/Flights.html", {'flights': flights, 'days': days, 'places':places})
     return redirect("/")
 
